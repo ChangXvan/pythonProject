@@ -1,0 +1,220 @@
+#include<stdio.h>
+#include<windows.h>
+#include<stdlib.h>
+void browse();
+void menu();
+void addinformation();
+void searchinformation();
+void deleteinformation();
+void changeinformation();
+struct teacher//教师结构体
+{
+	char ID[20];//工号
+	char name[7];
+	int age;
+	char tel[12];
+	char address[30];
+};
+ 
+struct teacher teach[50];//教师结构体数组
+int teachers = 0;//全局变量，教师数量
+int main()
+{
+	int mode = 0;
+ 
+	do
+	{
+		menu();
+		scanf("%d", &mode);
+		switch (mode)
+		{
+		case 1:
+			printf("\n");
+			addinformation();
+			teachers++;
+			break;
+		case 2:
+			printf("\n");
+			browse();
+			break;
+		case 3:
+			printf("\n");
+			searchinformation();
+			break;
+		case 4:
+			printf("\n");
+			deleteinformation();
+			break;
+		case 5:
+			changeinformation();
+			break;
+		case 0:
+			system("cls");
+			printf("系统已退出");
+			break;
+		default:
+			system("cls");
+			printf("输入错误!请重新输入");
+			Sleep(1200);
+			system("cls");
+		}
+	} while (mode);
+}
+ 
+void menu()//菜单
+{
+	printf("=======职工信息管理系统=======\n");
+	printf("===1.信息录入    2.信息浏览===\n");
+	printf("===3.信息查询    4.信息删除===\n");
+	printf("===5.信息修改    0.退出系统===\n");
+	printf("==============================\n");
+	printf("请输入要选择的数字:");
+}
+ 
+void addinformation()//添加信息
+{
+	int i = teachers;
+	printf("请输入职工号：");
+	scanf("%s", &teach[i].ID);
+	if (teachers != 0)
+	{
+		int j;
+		for (j = 0; j < teachers; j++)
+		{
+			if(strcmp(teach[i].ID, teach[j].ID)==0)
+			{
+				system("cls");
+				printf("职工工号重复！");
+					Sleep(1200);
+					system("cls");
+					return 0;
+			}
+		}
+	}
+	printf("请输入职工姓名：");
+	scanf("%s", &teach[i].name);
+	printf("请输入职工年龄：");
+	scanf("%d", &teach[i].age);
+	printf("请输入职工电话：");
+	scanf("%s", &teach[i].tel);
+	printf("请输入职工家庭住址：");
+	scanf("%s", &teach[i].address);
+	system("cls");
+	printf("教师信息录入成功!\n");
+	Sleep(1200);
+	system("cls");
+}
+void browse()//浏览信息
+{
+	if (teachers > 0)
+	{
+		int i;
+		for (i = 0; i < teachers; i++)
+		{
+			printf("职工号：%s\n",teach[i].ID);
+			printf("姓名：%s\n",teach[i].name);
+			printf("年龄：%d\n",teach[i].age);
+			printf("电话：%s\n",teach[i].tel);
+			printf("家庭住址：%s\n\n",teach[i].address);
+		}
+		system("pause");
+		system("cls");
+	}
+	else
+	{
+		system("cls");
+		printf("暂无职工信息！\n");
+		Sleep(1200);
+		system("cls");
+	}
+}
+void searchinformation()
+{
+	char id[20];
+	int i = 0;
+	printf("请输入要查找的职工工号:");
+	scanf("%s", &id);
+	for (i = 0; i < teachers; i++)
+	{
+		if (strcmp(id,teach[i].ID)==0)
+		{
+			printf("职工号：%s\n", teach[i].ID);
+			printf("姓名：%s\n", teach[i].name);
+			printf("年龄：%d\n", teach[i].age);
+			printf("电话：%s\n", teach[i].tel);
+			printf("家庭住址：%s\n\n", teach[i].address);
+			system("pause");
+			system("cls");
+			return 0;
+		}
+	}
+	if (id != teach[i].ID)
+	{
+		system("cls");
+		printf("查无此人!请检查输入的职工工号\n");
+		Sleep(1200);
+		system("cls");
+	}
+}
+ 
+void deleteinformation()
+{
+	char idd[20];
+	printf("请输入要删除的职工工号:");
+	scanf("%s",&idd);
+	int i, j;
+	for (i = 0; i < teachers; i++)
+	{
+		if (strcmp(idd,teach[i].ID)==0)
+		{
+			for (j = i;j < teachers;j++)
+			{
+				teach[j] = teach[j + 1];
+			}
+			teachers--;
+			system("cls");
+			printf("删除职工信息成功！\n");
+			Sleep(1200);
+			system("cls");
+			return 0;
+		}
+ 
+	}
+	system("cls");
+	printf("职工工号不存在!\n");
+	Sleep(1200);
+	system("cls");
+}
+void changeinformation()
+{
+	char id[20];
+	int i;
+	printf("请输入要修改的职工工号");
+	scanf("%s", &id);
+	for (i = 0; i < teachers; i++)
+	{
+		if (strcmp(id, teach[i].ID) == 0)
+		{
+			printf("请输入职工号：");
+			scanf("%s", &teach[i].ID);
+			printf("请输入职工姓名：");
+			scanf("%s", &teach[i].name);
+			printf("请输入职工年龄：");
+			scanf("%d", &teach[i].age);
+			printf("请输入职工电话：");
+			scanf("%s", &teach[i].tel);
+			printf("请输入职工家庭住址：");
+			scanf("%s", &teach[i].address);
+			system("cls");
+			printf("修改职工信息成功！\n");
+			Sleep(1200);
+			system("cls");
+			return 0;
+		}
+ 
+	}
+	system("cls");
+	printf("职工工号不存在!\n");
+	Sleep(1200);
+	system("cls");
+}
